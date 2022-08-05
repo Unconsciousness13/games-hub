@@ -11,6 +11,7 @@ When you are logged user, you can create games review articles.<br>
 You can see your own articles.<br>
 Sidebar with most liked Articles.<br>
 Tag bar with used tags.<br>
+Users can edit , delete only the owned games articles ! <br>
 When you create game article should to wait for alert for succesfull uploaded image and the button color change.<br>
 All fields are required !<br>
 Only logged users can like and comment games articles !<br>
