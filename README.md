@@ -1,6 +1,6 @@
 Project defence :
 
-important : node modules are not uploaded <br>
+Important : node modules are not uploaded <br>
 To see the app functionality go to : https://modern-blog.web.app/<br>
 
 Functionality :<br>
