@@ -1,4 +1,4 @@
-<h1>Project defence</h1> :
+<h1>Project defence</h1>
 
 Important : node modules are not uploaded <br>
 To see the app functionality go to : https://modern-blog.web.app/<br>
