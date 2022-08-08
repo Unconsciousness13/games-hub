@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
+
 
 const initialState = {
   firstName: "",
@@ -43,12 +45,29 @@ const Auth = ({ setActive, setUser }) => {
         return toast.error("All fields are required !");
       }
     } else {
-      if (firstName.length && lastName.length < 3 ) {
+      if (firstName.length && lastName.length < 3) {
         return toast.error("First name and last name must be at least 3 characters");
       }
+      
+      if( FirebaseError ){
+        toast.error("Email already in use")
+    }
+
+      if (password.length < 8) {
+        toast.error("Your password must be at least 8 characters");
+      }
+      if (password.search(/[a-z]/i) < 0) {
+        toast.error("Your password must contain at least one letter.");
+      }
+      if (password.search(/[0-9]/) < 0) {
+        toast.error("Your password must contain at least one digit.");
+      }
+
       if (password !== confirmPassword) {
         return toast.error("Password don't match");
       }
+
+
       if (firstName && lastName && email && password) {
         const { user } = await createUserWithEmailAndPassword(
           auth,
@@ -57,9 +76,9 @@ const Auth = ({ setActive, setUser }) => {
         );
         await updateProfile(user, { displayName: `${firstName} ${lastName}` });
         setActive("home");
-      } 
-      
-     
+      }
+
+
 
       else {
         return toast.error("All fields are required !");
