@@ -6,7 +6,7 @@ const MostPopular = ({ games }) => {
   return (
     <div>
       <div className="blog-heading text-start pt-3 py-2 mb-4">Most Popular</div>
-      {games?.map((item) => (
+      {games?.sort((a,b) => b.likes.length - a.likes.length ).map((item) => (
         <div
           className="row pb-3"
           key={item.id}
@@ -27,7 +27,7 @@ const MostPopular = ({ games }) => {
             </div>
           </div>
         </div>
-      )).sort((a,b) => a.title > b.title )}
+      ))}
     </div>
   );
 };
