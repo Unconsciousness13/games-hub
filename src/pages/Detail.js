@@ -1,54 +1,24 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import React, { useState, useEffect } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
+import { auth, db } from "../firebase";
+import Likegame from "../components/LikeGame";
+import Comment from "../components/Comment";
 import MostPopular from "../components/MostPopular";
 import Tags from "../components/Tags";
-import { db } from "../firebase";
-// import Comment from "../components/Comment";
 
-const Detail = ({ setActive }) => {
+export default function Detail() {
   const { id } = useParams();
-  const [game, setGame] = useState(null);
-  const [games, setGames] = useState([]);
-  const [tags, setTags] = useState([]);
-
-  // new
-  // const [comments, setComments] = useState([]);
-  // const [likes, setLikes] = useState([]);
-
-  // end new
+  const [game, setgame] = useState(null);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
-    const getgamesData = async () => {
-      const gameRef = collection(db, "games");
-      const games = await getDocs(gameRef);
-      setGames(games.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-      let tags = [];
-      games.docs.map((doc) => tags.push(...doc.get("tags")));
-      let uniqueTags = [...new Set(tags)];
-      setTags(uniqueTags);
-      //new 
-      // let comments = [];
-      // games.docs.map((doc) => tags.push(...doc.get("comments")));
-      // setComments(comments)
-      //endnew
-      
-    };
-
-    getgamesData();
-  }, []);
-
-  useEffect(() => {
-    id && getgameDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  const getgameDetail = async () => {
     const docRef = doc(db, "games", id);
-    const gameDetail = await getDoc(docRef);
-    setGame(gameDetail.data());
-    setActive(null);
-  };
+    onSnapshot(docRef, (snapshot) => {
+      setgame({ ...snapshot.data(), id: snapshot.id });
+    });
+  }, []);
   return (
     <div className="single">
       <div
@@ -61,28 +31,39 @@ const Detail = ({ setActive }) => {
           <h2>{game?.title}</h2>
         </div>
       </div>
-      <div className="container-fluid pb-4 pt-4 padding blog-single-content">
-        <div className="container padding">
-          <div className="row mx-0">
-            <div className="col-md-8">
+      {game && (
+        <div className="container-fluid pb-4 pt-4 padding blog-single-content">
+          <div className="container padding">
+            <div className="row mx-0">
+              <div className="col-md-8">
               <span className="meta-info text-start">
                 By <p className="author">{game?.author}</p> -&nbsp;
                 {game?.timestamp.toDate().toDateString()}
               </span>
               <p className="text-start">{game?.description}</p>
+              <div className="d-flex flex-row-reverse">
+              {user && <Likegame id={id} likes={game.likes} />}
+              <div className="pe-2">
+              {user && (
+                <p>
+                  {game.likes.length}  
+                </p>
+                )}
+              </div>
             </div>
-            {/* <div> <Comment id={game.id} /></div> */}
-           
-            
-            <div className="col-md-3">
-              <Tags tags={tags} />
-              <MostPopular games={games} />
+              <Comment id={game.id} />
+            </div>          
+                
+              </div>
             </div>
-          </div>
+        
+        
+          {/* <div className="col-md-3">
+            <Tags tags={game.tags} />
+            <MostPopular games={game} />
+          </div> */}
         </div>
-      </div>
+      )}
     </div>
   );
-};
-
-export default Detail;
+}
