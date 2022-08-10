@@ -1,12 +1,10 @@
 import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./../firebaseConfig";
-import { useId } from "react";
+import { auth, db } from "../firebase"
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Comment({ id }) {
-  const commentIdGen = useId();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [currentlyLoggedinUser] = useAuthState(auth);
@@ -23,10 +21,10 @@ export default function Comment({ id }) {
       updateDoc(commentRef, {
         comments: arrayUnion({
           user: currentlyLoggedinUser.uid,
-          userName: currentlyLoggedinUser.email,
+          userName: currentlyLoggedinUser.displayName,
           comment: comment,
           createdAt: new Date(),
-          commentId: commentIdGen,
+          commentId: uuidv4(),
         }),
       }).then(() => {
         setComment("");
@@ -51,11 +49,11 @@ export default function Comment({ id }) {
     <div>
       Comment
       <div className="container">
-        {comments !== null &&
+        {comments !== null && currentlyLoggedinUser &&
           comments.map(({ commentId, user, comment, userName , createdAt}) => (
             <div key={commentId}>
               <div className="border p-2 mt-2 row">
-                <div className="col-8">
+                <div className="col-11">
                   <span
                     className={`badge ${
                       user === currentlyLoggedinUser.uid
