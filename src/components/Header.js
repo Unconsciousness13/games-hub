@@ -58,8 +58,18 @@ const Header = ({ active, setActive, user, handleLogout }) => {
                       >
                         My Games
                       </li>
+                      
                     </Link>
+                    <img style={{
+                            display: "block",
+                            position: "absolute",
+                            marginLeft: "45%",
+                            width: "180px",
+                            height: "30px",
+                            marginTop: "10px",
+                          }} alt="logo" src="https://i.ibb.co/VCPSmYg/logo.png" />
                   </>
+                  
                 ) : (
                   <>
                     <Link to="/" style={{ textDecoration: "none" }}>
@@ -82,7 +92,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
                       <div className="profile-logo">
                         <img
                           src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                          alt="logo"
+                          alt="profile"
                           style={{
                             width: "30px",
                             height: "30px",
