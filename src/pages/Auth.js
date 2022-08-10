@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 
 
+
 const initialState = {
   firstName: "",
   lastName: "",
@@ -38,7 +39,15 @@ const Auth = ({ setActive, setUser }) => {
           auth,
           email,
           password
-        );
+        ).catch((error) => {
+          if(error.code === 'auth/wrong-password'){
+            toast.error('Please check the Password');
+          }
+          if(error.code === 'auth/user-not-found'){
+            toast.error('Please check the Email');
+          }
+        });
+        
         setUser(user);
         setActive("home");
       } else {
@@ -48,10 +57,10 @@ const Auth = ({ setActive, setUser }) => {
       if (firstName.length && lastName.length < 3) {
         return toast.error("First name and last name must be at least 3 characters");
       }
-      
-      if( FirebaseError ){
+
+      if (FirebaseError) {
         toast.error("Email already in use")
-    }
+      }
 
       if (password.length < 8) {
         toast.error("Your password must be at least 8 characters");
