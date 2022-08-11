@@ -6,15 +6,12 @@ import { db } from "../firebase";
 import { toast } from "react-toastify";
 import Tags from "../components/Tags";
 import MostPopular from "../components/MostPopular";
-// import LikeGame from "../components/LikeGame";
-// import Comment from "../components/Comment";
 
 const Home = ({ setActive, user }) => {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState([]);
   const [tags, setTags] = useState([]);
-  // const [comments , setComments] = useState([]);
-  // const [likes , setLikes ] = useState([]);
+
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -22,19 +19,14 @@ const Home = ({ setActive, user }) => {
       (snapshot) => {
         let list = [];
         let tags = [];
-        // let comments = [];
-        // let likes = [];
+
         snapshot.docs.forEach((doc) => {
           tags.push(...doc.get("tags"));
-          // comments.push(...doc.get("comments"));
-          // likes.push(...doc.get("likes"));
           list.push({ id: doc.id, ...doc.data() });
           
         });
         const uniqueTags = [...new Set(tags)];
         setTags(uniqueTags);
-        // setComments(comments);
-        // setLikes(likes);
         setGames(list);
         setLoading(false);
         setActive("home");
@@ -77,10 +69,8 @@ const Home = ({ setActive, user }) => {
               handleDelete={handleDelete}
             />
           </div>
-          
+
           <div className="col-md-3">
-            {/* <LikeGame likes={likes} />
-            <Comment comments={comments} /> */}
             <Tags tags={tags} />
             <MostPopular games={games} />
           </div>
