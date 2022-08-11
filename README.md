@@ -15,6 +15,4 @@ Only logged users can like and comment games articles !<br>
 Users can edit , delete only the owned games articles ! <br>
 When you create game article should to wait for alert for succesfull uploaded image and the button color change.<br>
 All fields are required !<br>
-
-
- Additional functionality like user profile picture icon in navbar will be ready in the exam day ! <br>
+Profile Avatar, edit profile names <br>
