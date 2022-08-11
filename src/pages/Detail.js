@@ -6,12 +6,39 @@ import { auth, db } from "../firebase";
 import Likegame from "../components/LikeGame";
 import Comment from "../components/Comment";
 import MostPopular from "../components/MostPopular";
-import Tags from "../components/Tags";
+import { collection } from "firebase/firestore";
 
-export default function Detail() {
+
+export default function Detail({ setActive }) {
   const { id } = useParams();
   const [game, setgame] = useState(null);
+  const [games, setGames] = useState([]);
   const [user] = useAuthState(auth);
+
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(db, "games"),
+      (snapshot) => {
+        let list = [];
+        snapshot.docs.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+          
+        });
+        setGames(list);
+        setActive("detail");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    return () => {
+      unsub();
+    };
+  }, [setActive]);
+  
+
 
   useEffect(() => {
     const docRef = doc(db, "games", id);
@@ -33,7 +60,7 @@ export default function Detail() {
       </div>
       {game && (
         <div className="container-fluid pb-4 pt-4 padding blog-single-content">
-          <div className="container padding">
+          <div className="container padding">  
             <div className="row mx-0">
               <div className="col-md-8">
               <span className="meta-info text-start">
@@ -41,6 +68,9 @@ export default function Detail() {
                 {game?.timestamp.toDate().toDateString()}
               </span>
               <p className="text-start">{game?.description}</p>
+
+            
+
               <div className="d-flex flex-row-reverse">
               {user && <Likegame id={id} likes={game.likes} />}
               <div className="pe-2">
@@ -50,18 +80,18 @@ export default function Detail() {
                 </p>
                 )}
               </div>
+              
             </div>
               <Comment id={game.id} />
             </div>          
-                
+            <div className="col-md-3" style={{float:'left', marginTop: '-7px'}}> 
+            <MostPopular games={games} />
+            </div>
               </div>
             </div>
         
         
-          {/* <div className="col-md-3">
-            <Tags tags={game.tags} />
-            <MostPopular games={game} />
-          </div> */}
+          
         </div>
       )}
     </div>
