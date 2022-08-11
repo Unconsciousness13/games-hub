@@ -17,7 +17,8 @@ export default function Comment({ id }) {
   }, []);
 
   const handleChangeComment = (e) => {
-    if (e.key === "Enter") {
+    e.preventDefault();
+    // if (e.key === "Enter" || e.keyCode === 13) {
       updateDoc(commentRef, {
         comments: arrayUnion({
           user: currentlyLoggedinUser.uid,
@@ -29,7 +30,7 @@ export default function Comment({ id }) {
       }).then(() => {
         setComment("");
       });
-    }
+    // }
   };
 
   // delete comment function
@@ -78,19 +79,25 @@ export default function Comment({ id }) {
             </div>
           ))}
         {currentlyLoggedinUser && (
-          <input
+          <form onSubmit={(e) => {
+            handleChangeComment(e);
+          }}><input       
             type="text"
-            className="form-control mt-4 mb-5"
+            className="form-control mt-3 mb-3"
             value={comment}
             onChange={(e) => {
               setComment(e.target.value);
             }}
             placeholder="Add a comment"
-            onKeyUp={(e) => {
-              handleChangeComment(e);
-            }}
-          />
+            // onKeyUp={(e) => {
+            //   handleChangeComment(e);
+            // }}
+          />       
+          <button className="btn btn-primary" onClick={handleChangeComment}>Send</button>
+          </form>
+            
         )}
+      
       </div>
     </div>
   );
