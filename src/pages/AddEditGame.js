@@ -79,7 +79,6 @@ const AddEditGame = ({ user, setActive }) => {
 
   useEffect(() => {
     id && getGameDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const getGameDetail = async () => {
