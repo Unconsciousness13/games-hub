@@ -23,23 +23,24 @@ const gameSection = ({ games, user, handleDelete }) => {
             <div className="text-start">
               <h6 className="category catg-color">{item.category}</h6>
               {userId && item.userId === userId && (
-              <div style={{ float: "right" }}>
-                <FontAwesome
-                  name="trash"
-                  style={{ margin: "15px", cursor: "pointer" }}
-                  size="2x"
-                  onClick={() => handleDelete(item.id)}
-                />
-                <Link to={`/update/${item.id}`}>
+                <div style={{ float: "right" }}>
                   <FontAwesome
-                    name="edit"
-                    style={{ cursor: "pointer" }}
+                    name="trash"
+                    style={{ margin: "15px", cursor: "pointer" }}
                     size="2x"
+                    onClick={() => handleDelete(item.id)}
                   />
-                </Link>
-              </div>
-            )}
-              
+                  <Link to={`/update/${item.id}`}>
+                    <FontAwesome
+                      name="pencil"
+                      style={{ cursor: "pointer" }}
+                      size="2x"
+                    />
+                    
+                  </Link>
+                </div>
+              )}
+
               <span className="title py-2">{item.title}</span>
               <span className="meta-info">
                 <p className="author">{item.author}</p> -&nbsp;
@@ -53,21 +54,23 @@ const gameSection = ({ games, user, handleDelete }) => {
               <button className="btn btn-read">Read More</button>
             </Link>
 
-            <div className="d-flex flex-row-reverse" style={{marginTop:"20px"}}>
-                    {user && <LikeGame id={item.id} likes={item.likes} />}
-                    <div className="pe-2">
-                      <p>{item.likes?.length} likes</p>
-                    </div>
-                    {item.comments && item.comments.length > 0 && (
-                      <div className="pe-2">
-                        <p>{item.comments?.length} comments</p>
-                      </div>
-                    )}
-                  </div>
+            <div
+              className="d-flex flex-row-reverse"
+              style={{ marginTop: "20px" }}
+            >
+              {user && <LikeGame id={item.id} likes={item.likes} />}
+              <div className="pe-2">
+                <p>{item.likes?.length} likes</p>
+              </div>
+              {item.comments && item.comments.length > 0 && (
+                <div className="pe-2">
+                  <p>{item.comments?.length} comments</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ))}
-      
     </div>
   );
 };
