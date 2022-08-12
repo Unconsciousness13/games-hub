@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { FirebaseError } from "firebase/app";
 
 
 
@@ -40,14 +39,14 @@ const Auth = ({ setActive, setUser }) => {
           email,
           password
         ).catch((error) => {
-          if(error.code === 'auth/wrong-password'){
-            toast.error('Please check the Password');
+          if (error.code === 'auth/wrong-password') {
+            toast.error('Wrong password');
           }
-          if(error.code === 'auth/user-not-found'){
-            toast.error('Please check the Email');
+          if (error.code === 'auth/user-not-found') {
+            toast.error('Wrong user email');
           }
         });
-        
+
         setUser(user);
         setActive("home");
       } else {
@@ -56,10 +55,6 @@ const Auth = ({ setActive, setUser }) => {
     } else {
       if (firstName.length && lastName.length < 3) {
         return toast.error("First name and last name must be at least 3 characters");
-      }
-
-      if (FirebaseError) {
-        toast.error("Email already in use")
       }
 
       if (password.length < 8) {
@@ -77,22 +72,31 @@ const Auth = ({ setActive, setUser }) => {
       }
 
 
+      
+
       if (firstName && lastName && email && password) {
         const { user } = await createUserWithEmailAndPassword(
           auth,
           email,
-          password
-        );
+          password 
+        ).catch((error) => {
+          if (error.code === 'auth/email-already-in-use') {
+            toast.error('Email already in use');
+          }
+        });
+        
         await updateProfile(user, { displayName: `${firstName} ${lastName}` });
+        toast.success("Profile registered successfully");
         setActive("home");
-      }
 
+      }
 
 
       else {
         return toast.error("All fields are required !");
       }
     }
+    
     navigate("/");
   };
 
