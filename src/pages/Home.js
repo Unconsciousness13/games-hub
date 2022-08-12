@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Tags from "../components/Tags";
 import MostPopular from "../components/MostPopular";
 
+
 const Home = ({ setActive, user }) => {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState([]);
@@ -22,6 +23,7 @@ const Home = ({ setActive, user }) => {
 
         snapshot.docs.forEach((doc) => {
           tags.push(...doc.get("tags"));
+
           list.push({ id: doc.id, ...doc.data() });
           
         });
@@ -69,7 +71,7 @@ const Home = ({ setActive, user }) => {
               handleDelete={handleDelete}
             />
           </div>
-
+          
           <div className="col-md-3">
             <Tags tags={tags} />
             <MostPopular games={games} />
