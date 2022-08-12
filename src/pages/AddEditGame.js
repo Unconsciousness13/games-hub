@@ -79,6 +79,7 @@ const AddEditGame = ({ user, setActive }) => {
 
   useEffect(() => {
     id && getGameDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const getGameDetail = async () => {
@@ -124,6 +125,7 @@ const AddEditGame = ({ user, setActive }) => {
             timestamp: serverTimestamp(),
             author: user.displayName,
             userId: user.uid,
+            likes: user.likes.length
           });
           toast.success("Game updated successfully");
         } catch (err) {
@@ -131,7 +133,7 @@ const AddEditGame = ({ user, setActive }) => {
         }
       }
     } else {
-      return toast.error("All fields are mandatory to fill");
+      return toast.error("All fields are mandatory to fill except tags");
     }
 
     navigate("/");
@@ -162,7 +164,7 @@ const AddEditGame = ({ user, setActive }) => {
               <div className="col-12 py-3">
                 <ReactTagInput
                   tags={tags}
-                  placeholder="Tags"
+                  placeholder="Write tag and press enter to add it"
                   onChange={handleTags}
                 />
               </div>
