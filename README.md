@@ -14,5 +14,6 @@ Tag bar with used tags.<br>
 Only logged users can like and comment games articles !<br>
 Users can edit , delete only the owned games articles ! <br>
 When you create game article should to wait for alert for succesfull uploaded image and the button color change.<br>
-All fields are required !<br>
+All fields are required (Only tags are not)!<br>
 Profile Avatar, edit profile names <br>
+Validators on all data
