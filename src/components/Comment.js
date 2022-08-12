@@ -14,11 +14,10 @@ export default function Comment({ id }) {
     onSnapshot(docRef, (snapshot) => {
       setComments(snapshot.data().comments);
     });
-  }, []);
+  }, [id]);
 
   const handleChangeComment = (e) => {
     e.preventDefault();
-    // if (e.key === "Enter" || e.keyCode === 13) {
       updateDoc(commentRef, {
         comments: arrayUnion({
           user: currentlyLoggedinUser.uid,
@@ -30,7 +29,6 @@ export default function Comment({ id }) {
       }).then(() => {
         setComment("");
       });
-    // }
   };
 
   // delete comment function
@@ -54,8 +52,9 @@ export default function Comment({ id }) {
           comments.map(({ commentId, user, comment, userName , createdAt}) => (
             <div key={commentId}>
               <div className="border p-2 mt-2 row">
-                <div className="col-11">
+                <div className="col-11 text-start">
                   <span
+                    style={{ marginRight: "8px"}}
                     className={`badge ${
                       user === currentlyLoggedinUser.uid
                         ? "bg-success"
@@ -64,7 +63,9 @@ export default function Comment({ id }) {
                   >
                     {userName}
                   </span>
+                  
                   {comment}
+                  
                 </div>
                 <div className="col-1">
                   {user === currentlyLoggedinUser.uid && (
@@ -89,9 +90,6 @@ export default function Comment({ id }) {
               setComment(e.target.value);
             }}
             placeholder="Add a comment"
-            // onKeyUp={(e) => {
-            //   handleChangeComment(e);
-            // }}
           />       
           <button className="btn btn-primary" onClick={handleChangeComment}>Send</button>
           </form>
