@@ -17,3 +17,4 @@ When you create game article should to wait for alert for succesfull uploaded im
 All fields are required (Only tags are not)!<br>
 Profile Avatar, edit profile names <br>
 Validators on all data
+
