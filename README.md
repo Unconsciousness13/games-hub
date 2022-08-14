@@ -16,5 +16,5 @@ Users can edit , delete only the owned games articles ! <br>
 When you create game article should to wait for alert for succesfull uploaded image and the button color change.<br>
 All fields are required (Only tags are not)!<br>
 Profile Avatar, edit profile names <br>
-Validators on all data
+Validators on all data.
 
