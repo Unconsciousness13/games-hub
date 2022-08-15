@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import transitions from "bootstrap";
 
 
 const Header = ({ active, setActive, user, handleLogout }) => {
@@ -20,6 +21,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
               aria-controls="navbarSupportedContent"
               aria-expanded="true"
               aria-label="Toggle Navigation"
+              style={{color:"white"}}
             >
               <span className="fa fa-bars"></span>
             </button>
@@ -61,8 +63,9 @@ const Header = ({ active, setActive, user, handleLogout }) => {
 
                     </Link>
 
-                    <img style={{
-                      display: "block",
+                    <img 
+                      className="logo-navbar"
+                      style={{
                       position: "absolute",
                       marginLeft: "45%",
                       width: "180px",
