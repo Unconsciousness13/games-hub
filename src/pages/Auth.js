@@ -57,6 +57,10 @@ const Auth = ({ setActive, setUser }) => {
         return toast.error("First name and last name must be at least 3 characters");
       }
 
+      if (email.search(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/) ) {
+        return toast.error("Invalid email");
+      }
+
       if (password.length < 8) {
         toast.error("Your password must be at least 8 characters");
       }
