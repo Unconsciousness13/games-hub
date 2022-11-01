@@ -56,7 +56,7 @@ const Auth = ({ setActive, setUser }) => {
       if (firstName.length && lastName.length < 3) {
         return toast.error("First name and last name must be at least 3 characters");
       }
-
+ck Overflow
       if (email.search(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/) ) {
         return toast.error("Invalid email");
       }
@@ -225,3 +225,5 @@ const Auth = ({ setActive, setUser }) => {
 };
 
 export default Auth;
+
+
